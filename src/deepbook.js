@@ -1,18 +1,9 @@
-import { SuiClient } from "@mysten/sui/client";
-import { DeepBookClient } from "@mysten/deepbook-v3";
-
-const suiClient = new SuiClient({ 
-  url: "https://fullnode.mainnet.sui.io:443"
-});
-
 export async function getMarketData() {
   try {
-    const deepbook = new DeepBookClient({
-      client: suiClient,
-      env: "mainnet"
-    });
-
-    const pools = await deepbook.getAllPools();
+    const response = await fetch(
+      "https://deepbook-indexer.mainnet.mystenlabs.com/get_pools"
+    );
+    const pools = await response.json();
     
     return {
       success: true,
