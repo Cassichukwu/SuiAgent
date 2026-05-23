@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SuiAgent - AI Trading Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      background: #0f0f1a;
+      color: white;
+      padding: 20px;
+    }
+    h1 { color: #6fbcf0; text-align: center; }
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      background: #1a1a2e;
+      color: white;
+      border: 1px solid #6fbcf0;
+      font-size: 16px;
+      margin-top: 20px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: #6fbcf0;
+      color: #0f0f1a;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #4a9fd4; }
+    #answer {
+      margin-top: 20px;
+      padding: 20px;
+      background: #1a1a2e;
+      border-radius: 10px;
+      border: 1px solid #6fbcf0;
+      min-height: 100px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 SuiAgent — AI Trading Assistant</h1>
+  <textarea id="question" rows="4" 
+    placeholder="Ask me anything about Sui trading...">
+  </textarea>
+  <button onclick="askQuestion()">Ask Agent</button>
+  <div id="answer">Your answer will appear here...</div>
+
+  <script>
+    async function askQuestion() {
+      const question = document.getElementById("question").value;
+      const answerDiv = document.getElementById("answer");
+      
+      if (!question.trim()) {
+        answerDiv.innerText = "Please type a question first!";
+        return;
+      }
+      
+      answerDiv.innerText = "Thinking... 🤔";
+
+      try {
+        const response = await fetch("http://localhost:3000/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: question })
+        });
+
+        const data = await response.json();
+
+        if (data.answer) {
+          answerDiv.innerText = data.answer;
+        } else if (data.error) {
+          answerDiv.innerText = "Error: " + data.error;
+        } else {
+          answerDiv.innerText = "No response received.";
+        }
+
+      } catch (err) {
+        answerDiv.innerText = "Connection error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
