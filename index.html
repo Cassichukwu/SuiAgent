@@ -101,10 +101,9 @@
   </style>
 </head>
 <body>
-
   <div class="header">
     <h1>🤖 SuiAgent</h1>
-    <p>AI-Powered Trading Assistant on Sui Blockchain 🚀</p>
+    <p>AI-Powered Trading Assistant on Sui Blockchain</p>
   </div>
 
   <div class="wallet-section">
@@ -134,6 +133,7 @@
 
   <script>
     var walletAddress = null;
+    var BACKEND = 'https://suiagent-production.up.railway.app';
 
     window.onload = function() {
       document.getElementById('btn1').onclick = function() {
@@ -162,19 +162,20 @@
 
     function connectWallet() {
       var answerDiv = document.getElementById('answer');
-      if (window.suiWallet) {
-        window.suiWallet.requestPermissions().then(function() {
-          return window.suiWallet.getAccounts();
+      var wallet = window.suiWallet || window.pelagus || window.martian;
+      if (wallet) {
+        wallet.requestPermissions().then(function() {
+          return wallet.getAccounts();
         }).then(function(accounts) {
           walletAddress = accounts[0];
           document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
           document.getElementById('walletStatus').innerText = 'Wallet: Connected';
-          answerDiv.innerText = '✅ Wallet connected successfully!';
+          answerDiv.innerText = '✅ Wallet connected!';
         }).catch(function(err) {
           answerDiv.innerText = 'Wallet error: ' + err.message;
         });
       } else {
-        answerDiv.innerText = '⚠️ Sui Wallet not detected! Please make sure it is enabled in Chrome extensions.';
+        answerDiv.innerText = '⚠️ No Sui wallet detected!';
       }
     }
 
@@ -189,7 +190,7 @@
 
       answerDiv.innerText = 'Thinking... 🤔';
 
-      fetch('https://suiagent-production.up.railway.app/ask',
+      fetch(BACKEND + '/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, wallet: walletAddress })
@@ -209,6 +210,5 @@
       });
     }
   </script>
-
 </body>
 </html>
