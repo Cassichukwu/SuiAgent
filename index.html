@@ -19,244 +19,44 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: 
-        radial-gradient(ellipse at 20% 20%, rgba(111, 188, 240, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(74, 159, 212, 0.08) 0%, transparent 50%);
+      background: radial-gradient(ellipse at 20% 20%, rgba(111, 188, 240, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(74, 159, 212, 0.08) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .header {
-      text-align: center;
-      padding: 40px 0 30px;
-    }
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, #6fbcf0, #4a9fd4);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 0 30px rgba(111, 188, 240, 0.3);
-    }
-    .logo-text {
-      font-size: 2.2em;
-      font-weight: 700;
-      background: linear-gradient(135deg, #6fbcf0, #ffffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .tagline {
-      color: #6b7280;
-      font-size: 0.95em;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-    .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 20px 0 30px;
-      flex-wrap: wrap;
-    }
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-    .stat-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #2ecc71;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+    .header { text-align: center; padding: 40px 0 30px; }
+    .logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #6fbcf0, #4a9fd4); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 30px rgba(111, 188, 240, 0.3); }
+    .logo-text { font-size: 2.2em; font-weight: 700; background: linear-gradient(135deg, #6fbcf0, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .tagline { color: #6b7280; font-size: 0.95em; }
+    .stats-bar { display: flex; justify-content: center; gap: 20px; margin: 20px 0 30px; flex-wrap: wrap; }
+    .stat { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 20px; font-size: 13px; }
+    .stat-dot { width: 7px; height: 7px; border-radius: 50%; background: #2ecc71; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .stat-label { color: #6b7280; }
     .stat-value { color: #e5e7eb; font-weight: 500; }
-    .wallet-section {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 25px;
-    }
-    .wallet-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: rgba(111, 188, 240, 0.1);
-      color: #6fbcf0;
-      border: 1px solid rgba(111, 188, 240, 0.3);
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-    .wallet-btn:hover {
-      background: rgba(111, 188, 240, 0.2);
-      border-color: rgba(111, 188, 240, 0.5);
-      transform: translateY(-1px);
-    }
-    .chat-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-    .chat-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .chat-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #9ca3af;
-    }
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(46, 204, 113, 0.1);
-      border: 1px solid rgba(46, 204, 113, 0.2);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      color: #2ecc71;
-    }
-    .suggestions {
-      padding: 16px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .suggestion-btn {
-      padding: 7px 14px;
-      background: rgba(111, 188, 240, 0.06);
-      color: #6fbcf0;
-      border: 1px solid rgba(111, 188, 240, 0.15);
-      border-radius: 20px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Inter', sans-serif;
-    }
-    .suggestion-btn:hover {
-      background: rgba(111, 188, 240, 0.15);
-      border-color: rgba(111, 188, 240, 0.3);
-      transform: translateY(-1px);
-    }
+    .wallet-section { display: flex; justify-content: center; margin-bottom: 25px; }
+    .wallet-btn { padding: 12px 24px; background: rgba(111, 188, 240, 0.1); color: #6fbcf0; border: 1px solid rgba(111, 188, 240, 0.3); border-radius: 25px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .chat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden; }
+    .chat-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .chat-title { font-size: 14px; font-weight: 500; color: #9ca3af; }
+    .live-badge { display: flex; align-items: center; gap: 6px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #2ecc71; }
+    .suggestions { padding: 16px 20px; display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .suggestion-btn { padding: 7px 14px; background: rgba(111, 188, 240, 0.06); color: #6fbcf0; border: 1px solid rgba(111, 188, 240, 0.15); border-radius: 20px; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; }
     .input-area { padding: 20px; }
-    textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.08);
-      font-size: 14px;
-      resize: none;
-      outline: none;
-      transition: border 0.3s;
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-    }
-    textarea:focus {
-      border-color: rgba(111, 188, 240, 0.4);
-      background: rgba(255,255,255,0.06);
-    }
+    textarea { width: 100%; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); color: white; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; resize: none; outline: none; font-family: 'Inter', sans-serif; line-height: 1.6; }
+    textarea:focus { border-color: rgba(111, 188, 240, 0.4); }
     textarea::placeholder { color: #4b5563; }
-    .ask-btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background: linear-gradient(135deg, #6fbcf0 0%, #4a9fd4 100%);
-      color: #050510;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.3px;
-    }
-    .ask-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(111, 188, 240, 0.3);
-    }
-    .answer-container {
-      margin: 0 20px 20px;
-      padding: 18px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      min-height: 100px;
-      line-height: 1.8;
-      font-size: 14px;
-      color: #d1d5db;
-      white-space: pre-wrap;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px 0 30px;
-      color: #374151;
-      font-size: 12px;
-    }
+    .ask-btn { width: 100%; padding: 14px; margin-top: 10px; background: linear-gradient(135deg, #6fbcf0, #4a9fd4); color: #050510; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .answer-container { margin: 0 20px 20px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; min-height: 100px; line-height: 1.8; font-size: 14px; color: #d1d5db; white-space: pre-wrap; }
+    .footer { text-align: center; padding: 20px 0 30px; color: #374151; font-size: 12px; }
     .footer a { color: #6fbcf0; text-decoration: none; }
-    .thinking {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #6b7280;
-    }
+    .thinking { display: flex; align-items: center; gap: 8px; color: #6b7280; }
     .thinking-dots { display: flex; gap: 4px; }
-    .thinking-dots span {
-      width: 6px;
-      height: 6px;
-      background: #6fbcf0;
-      border-radius: 50%;
-      animation: bounce 1.2s infinite;
-    }
+    .thinking-dots span { width: 6px; height: 6px; background: #6fbcf0; border-radius: 50%; animation: bounce 1.2s infinite; }
     .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
     .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-6px); }
-    }
-    @media (max-width: 600px) {
-      .stats-bar { gap: 10px; }
-      .logo-text { font-size: 1.8em; }
-    }
+    @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
   </style>
 </head>
 <body>
@@ -270,21 +70,9 @@
     </div>
 
     <div class="stats-bar">
-      <div class="stat">
-        <div class="stat-dot"></div>
-        <span class="stat-label">Network:</span>
-        <span class="stat-value">Sui Mainnet</span>
-      </div>
-      <div class="stat">
-        <div class="stat-dot"></div>
-        <span class="stat-label">Data:</span>
-        <span class="stat-value">DeepBook Live</span>
-      </div>
-      <div class="stat">
-        <div class="stat-dot"></div>
-        <span class="stat-label">Status:</span>
-        <span class="stat-value">Online</span>
-      </div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-label">Network:</span><span class="stat-value">Sui Mainnet</span></div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-label">Data:</span><span class="stat-value">DeepBook Live</span></div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-label">Status:</span><span class="stat-value">Online</span></div>
     </div>
 
     <div class="wallet-section">
@@ -293,13 +81,9 @@
 
     <div class="chat-card">
       <div class="chat-header">
-        <span class="chat-title">Ask about DeepBook & Sui Trading</span>
-        <div class="live-badge">
-          <div class="stat-dot"></div>
-          Live Data
-        </div>
+        <span class="chat-title">Ask about DeepBook and Sui Trading</span>
+        <div class="live-badge"><div class="stat-dot"></div>Live Data</div>
       </div>
-
       <div class="suggestions">
         <button class="suggestion-btn" id="btn1">📊 Trading Pools</button>
         <button class="suggestion-btn" id="btn2">📈 Market Sentiment</button>
@@ -308,20 +92,17 @@
         <button class="suggestion-btn" id="btn5">🏊 Liquidity Pools</button>
         <button class="suggestion-btn" id="btn6">💰 SUI Price</button>
       </div>
-
       <div class="input-area">
-        <textarea id="question" rows="3"
-          placeholder="Ask me anything about Sui trading, DeepBook markets, liquidity pools..."></textarea>
+        <textarea id="question" rows="3" placeholder="Ask me anything about Sui trading, DeepBook markets..."></textarea>
         <button class="ask-btn" id="askBtn">Ask SuiAgent 🚀</button>
       </div>
-
       <div class="answer-container" id="answer">
         <span style="color:#374151;font-style:italic;">Your AI trading insights will appear here...</span>
       </div>
     </div>
 
     <div class="footer">
-      <p>Powered by <a href="https://sui.io" target="_blank">Sui Blockchain</a> & <a href="https://deepbook.tech" target="_blank">DeepBook</a> • Built for Sui Overflow Hackathon</p>
+      <p>Powered by <a href="https://sui.io" target="_blank">Sui Blockchain</a> and <a href="https://deepbook.tech" target="_blank">DeepBook</a> • Built for Sui Overflow Hackathon</p>
     </div>
   </div>
 
@@ -330,80 +111,52 @@
     var BACKEND = 'https://suiagent-production.up.railway.app';
 
     window.onload = function() {
-      document.getElementById('btn1').onclick = function() {
-        document.getElementById('question').value = 'What trading pools are available on DeepBook?';
-        sendQuestion();
-      };
-      document.getElementById('btn2').onclick = function() {
-        document.getElementById('question').value = 'What is the current SUI market sentiment?';
-        sendQuestion();
-      };
-      document.getElementById('btn3').onclick = function() {
-        document.getElementById('question').value = 'How do I start trading on DeepBook?';
-        sendQuestion();
-      };
-      document.getElementById('btn4').onclick = function() {
-        document.getElementById('question').value = 'What are the risks of trading SUI?';
-        sendQuestion();
-      };
-      document.getElementById('btn5').onclick = function() {
-        document.getElementById('question').value = 'How do liquidity pools work on DeepBook?';
-        sendQuestion();
-      };
-      document.getElementById('btn6').onclick = function() {
-        document.getElementById('question').value = 'What is the current SUI token price and market cap?';
-        sendQuestion();
-      };
-      document.getElementById('askBtn').onclick = function() {
-        sendQuestion();
-      };
-      document.getElementById('walletBtn').onclick = function() {
-        connectWallet();
-      };
+      document.getElementById('btn1').onclick = function() { document.getElementById('question').value = 'What trading pools are available on DeepBook?'; sendQuestion(); };
+      document.getElementById('btn2').onclick = function() { document.getElementById('question').value = 'What is the current SUI market sentiment?'; sendQuestion(); };
+      document.getElementById('btn3').onclick = function() { document.getElementById('question').value = 'How do I start trading on DeepBook?'; sendQuestion(); };
+      document.getElementById('btn4').onclick = function() { document.getElementById('question').value = 'What are the risks of trading SUI?'; sendQuestion(); };
+      document.getElementById('btn5').onclick = function() { document.getElementById('question').value = 'How do liquidity pools work on DeepBook?'; sendQuestion(); };
+      document.getElementById('btn6').onclick = function() { document.getElementById('question').value = 'What is the current SUI token price and market cap?'; sendQuestion(); };
+      document.getElementById('askBtn').onclick = function() { sendQuestion(); };
+      document.getElementById('walletBtn').onclick = function() { connectWallet(); };
     };
 
-    
-      
+    function connectWallet() {
+      var answerDiv = document.getElementById('answer');
+      var wallet = window.suiWallet || window.slush || window.nightly || window.suiet || window.martian;
+
+      if (!wallet) {
+        answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install <a href="https://slush.app" target="_blank" style="color:#6fbcf0;">Slush Wallet</a> from Chrome Web Store.';
+        return;
+      }
+
+      if (wallet.requestPermissions) {
+        wallet.requestPermissions().then(function() {
+          return wallet.getAccounts();
+        }).then(function(accounts) {
+          walletAddress = accounts[0];
+          document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+          answerDiv.innerHTML = '✅ Wallet connected!';
+        }).catch(function(err) {
+          answerDiv.innerHTML = 'Wallet error: ' + err.message;
+        });
+      } else if (wallet.connect) {
+        wallet.connect().then(function(res) {
+          walletAddress = res.address || (res.accounts && res.accounts[0]);
+          document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+          answerDiv.innerHTML = '✅ Wallet connected!';
+        }).catch(function(err) {
+          answerDiv.innerHTML = 'Wallet error: ' + err.message;
+        });
+      }
+    }
 
     function sendQuestion() {
       var question = document.getElementById('question').value;
       var answerDiv = document.getElementById('answer');
 
-      if (!question.trim()) {
-        answerDiv.innerHTML = 'Please type a question first!';
-        return;
-      }
-function connectWallet() {
-  var answerDiv = document.getElementById('answer');
+      if (!question.trim()) { answerDiv.innerHTML = 'Please type a question first!'; return; }
 
-  // Try all Sui wallet variants
-  var wallet = window.slush || window.suiWallet || window.nightly || window.suiet || window.martian;
-
-  if (wallet) {
-    // Try standard connect method
-    if (wallet.connect) {
-      wallet.connect().then(function(response) {
-        walletAddress = response.address || (response.accounts && response.accounts[0]);
-        document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-        answerDiv.innerHTML = '✅ Wallet connected!';
-      }).catch(function(err) {
-        answerDiv.innerHTML = 'Wallet error: ' + err.message;
-      });
-    } else if (wallet.requestPermissions) {
-      wallet.requestPermissions().then(function() {
-        return wallet.getAccounts();
-      }).then(function(accounts) {
-        walletAddress = accounts[0];
-        document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-        answerDiv.innerHTML = '✅ Wallet connected!';
-      }).catch(function(err) {
-        answerDiv.innerHTML = 'Wallet error: ' + err.message;
-      });
-    }
-  } else {
-    answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install <a href="https://slush.app" target="_blank" style="color:#6fbcf0;">Slush Wallet</a> from Chrome Web Store.';
-  }
-}
       answerDiv.innerHTML = '<div class="thinking">Analyzing market data <div class="thinking-dots"><span></span><span></span><span></span></div></div>';
 
       fetch(BACKEND + '/ask', {
@@ -411,19 +164,13 @@ function connectWallet() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, wallet: walletAddress })
       })
-      .then(function(response) { return response.json(); })
+      .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (data.answer) {
-          answerDiv.innerText = data.answer;
-        } else if (data.error) {
-          answerDiv.innerText = 'Error: ' + data.error;
-        } else {
-          answerDiv.innerText = 'No response received.';
-        }
+        if (data.answer) { answerDiv.innerText = data.answer; }
+        else if (data.error) { answerDiv.innerText = 'Error: ' + data.error; }
+        else { answerDiv.innerText = 'No response received.'; }
       })
-      .catch(function(err) {
-        answerDiv.innerText = 'Connection error: ' + err.message;
-      });
+      .catch(function(err) { answerDiv.innerText = 'Connection error: ' + err.message; });
     }
   </script>
 </body>
