@@ -451,33 +451,8 @@
 
       fetch(BACKEND + '/ask', {
         method: 'POST',
-      function connectWallet() {
-  var answerDiv = document.getElementById('answer');
-  
-  // Try all possible wallet objects
-  var wallet = window.pelagus || window.suiWallet || window.martian;
-  
-  if (window.pelagus) {
-    window.pelagus.request({ method: 'quai_requestAccounts' })
-    .then(function(accounts) {
-      walletAddress = accounts[0];
-      document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-      answerDiv.innerHTML = '✅ Wallet connected successfully!';
-    }).catch(function(err) {
-      answerDiv.innerHTML = 'Wallet error: ' + err.message;
-    });
-  } else if (window.suiWallet) {
-    window.suiWallet.requestPermissions().then(function() {
-      return window.suiWallet.getAccounts();
-    }).then(function(accounts) {
-      walletAddress = accounts[0];
-      document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-      answerDiv.innerHTML = '✅ Wallet connected!';
-    }).catch(function(err) {
-      answerDiv.innerHTML = 'Wallet error: ' + err.message;
-    });
-  } else {
-    answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install Sui Wallet from Chrome Web Store.';
+
+      
   }
 }  headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, wallet: walletAddress })
@@ -487,7 +462,32 @@
         if (data.answer) {
           answerDiv.innerText = data.answer;
         } else if (data.error) {
-          answerDiv.innerText = 'Error: ' + data.error;
+          answerDiv.innerText = 'Error: ' + data.error;function connectWallet() {
+  var answerDiv = document.getElementById('answer');
+  
+  if (window.pelagus) {
+    window.pelagus.request({ method: 'quai_requestAccounts' })
+    .then(function(accounts) {
+      walletAddress = accounts[0];
+      document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+      answerDiv.innerHTML = '✅ Pelagus Wallet connected!';
+    }).catch(function(err) {
+      answerDiv.innerHTML = 'Wallet error: ' + err.message;
+    });
+  } else if (window.suiWallet) {
+    window.suiWallet.requestPermissions().then(function() {
+      return window.suiWallet.getAccounts();
+    }).then(function(accounts) {
+      walletAddress = accounts[0];
+      document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+      answerDiv.innerHTML = '✅ Sui Wallet connected!';
+    }).catch(function(err) {
+      answerDiv.innerHTML = 'Wallet error: ' + err.message;
+    });
+  } else {
+    answerDiv.innerHTML = '⚠️ Please install Sui Wallet extension from Chrome Web Store!';
+  }
+}
         } else {
           answerDiv.innerText = 'No response received.';
         }
