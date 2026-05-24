@@ -362,40 +362,8 @@
       };
     };
 
-    function connectWallet() {
-      var answerDiv = document.getElementById('answer');
-
-      if (window.suiWallet) {
-        window.suiWallet.requestPermissions().then(function() {
-          return window.suiWallet.getAccounts();
-        }).then(function(accounts) {
-          walletAddress = accounts[0];
-          document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-          answerDiv.innerHTML = '✅ Sui Wallet connected!';
-        }).catch(function(err) {
-          answerDiv.innerHTML = 'Wallet error: ' + err.message;
-        });
-      } else if (window.pelagus) {
-        window.pelagus.request({ method: 'quai_requestAccounts' })
-        .then(function(accounts) {
-          walletAddress = accounts[0];
-          document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-          answerDiv.innerHTML = '✅ Pelagus Wallet connected!';
-        }).catch(function(err) {
-          answerDiv.innerHTML = 'Wallet error: ' + err.message;
-        });
-      } else if (window.martian) {
-        window.martian.connect().then(function(response) {
-          walletAddress = response.address;
-          document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-          answerDiv.innerHTML = '✅ Martian Wallet connected!';
-        }).catch(function(err) {
-          answerDiv.innerHTML = 'Wallet error: ' + err.message;
-        });
-      } else {
-        answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install <a href="https://chrome.google.com/webstore/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil" target="_blank" style="color:#6fbcf0;">Sui Wallet</a> from Chrome Web Store.';
-      }
-    }
+    
+      
 
     function sendQuestion() {
       var question = document.getElementById('question').value;
@@ -405,7 +373,37 @@
         answerDiv.innerHTML = 'Please type a question first!';
         return;
       }
+function connectWallet() {
+  var answerDiv = document.getElementById('answer');
 
+  // Try all Sui wallet variants
+  var wallet = window.slush || window.suiWallet || window.nightly || window.suiet || window.martian;
+
+  if (wallet) {
+    // Try standard connect method
+    if (wallet.connect) {
+      wallet.connect().then(function(response) {
+        walletAddress = response.address || (response.accounts && response.accounts[0]);
+        document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+        answerDiv.innerHTML = '✅ Wallet connected!';
+      }).catch(function(err) {
+        answerDiv.innerHTML = 'Wallet error: ' + err.message;
+      });
+    } else if (wallet.requestPermissions) {
+      wallet.requestPermissions().then(function() {
+        return wallet.getAccounts();
+      }).then(function(accounts) {
+        walletAddress = accounts[0];
+        document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
+        answerDiv.innerHTML = '✅ Wallet connected!';
+      }).catch(function(err) {
+        answerDiv.innerHTML = 'Wallet error: ' + err.message;
+      });
+    }
+  } else {
+    answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install <a href="https://slush.app" target="_blank" style="color:#6fbcf0;">Slush Wallet</a> from Chrome Web Store.';
+  }
+}
       answerDiv.innerHTML = '<div class="thinking">Analyzing market data <div class="thinking-dots"><span></span><span></span><span></span></div></div>';
 
       fetch(BACKEND + '/ask', {
