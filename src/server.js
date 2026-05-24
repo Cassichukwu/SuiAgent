@@ -18,6 +18,13 @@ app.post("/ask", async (req, res) => {
   }
 });
 
+
+
+// Keep alive ping
+setInterval(() => {
+  console.log('Server is alive:', new Date().toISOString());
+}, 5 * 60 * 1000);
+
 app.listen(3000, () => {
   console.log("✅ SuiAgent server running on http://localhost:3000");
 });
