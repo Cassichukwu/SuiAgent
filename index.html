@@ -2,133 +2,401 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SuiAgent - AI Trading Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
+      background: #050510;
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(111, 188, 240, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(74, 159, 212, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
       max-width: 900px;
       margin: 0 auto;
-      background: #0a0a1a;
-      color: white;
-      padding: 30px 20px;
-      min-height: 100vh;
-    }
-    .header { text-align: center; margin-bottom: 30px; }
-    .header h1 { color: #6fbcf0; font-size: 2em; margin-bottom: 10px; }
-    .header p { color: #888; font-size: 0.9em; }
-    .wallet-section { display: flex; justify-content: center; margin-bottom: 25px; }
-    .wallet-btn {
-      padding: 12px 25px;
-      background: #4a9fd4;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    .chat-container {
-      background: #111128;
-      border-radius: 15px;
       padding: 20px;
-      border: 1px solid #1e1e3a;
+      position: relative;
+      z-index: 1;
     }
-    textarea {
-      width: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      background: #1a1a2e;
-      color: white;
-      border: 1px solid #2a2a4a;
-      font-size: 15px;
-      resize: none;
-      outline: none;
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 40px 0 30px;
     }
-    .ask-btn {
-      width: 100%;
-      padding: 15px;
-      margin-top: 10px;
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
       background: linear-gradient(135deg, #6fbcf0, #4a9fd4);
-      color: #0a0a1a;
-      border: none;
-      border-radius: 10px;
-      font-size: 17px;
-      font-weight: bold;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 30px rgba(111, 188, 240, 0.3);
+    }
+
+    .logo-text {
+      font-size: 2.2em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6fbcf0, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      color: #6b7280;
+      font-size: 0.95em;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px 0 30px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .stat-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2ecc71;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .stat-label { color: #6b7280; }
+    .stat-value { color: #e5e7eb; font-weight: 500; }
+
+    /* Wallet button */
+    .wallet-section {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .wallet-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(111, 188, 240, 0.1);
+      color: #6fbcf0;
+      border: 1px solid rgba(111, 188, 240, 0.3);
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
     }
-    #answer {
-      margin-top: 20px;
-      padding: 20px;
-      background: #1a1a2e;
-      border-radius: 10px;
-      border-left: 4px solid #6fbcf0;
-      min-height: 80px;
-      line-height: 1.7;
-      font-size: 15px;
-      color: #ddd;
-      white-space: pre-wrap;
+
+    .wallet-btn:hover {
+      background: rgba(111, 188, 240, 0.2);
+      border-color: rgba(111, 188, 240, 0.5);
+      transform: translateY(-1px);
     }
+
+    /* Main chat card */
+    .chat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #9ca3af;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #2ecc71;
+    }
+
+    /* Suggestions */
     .suggestions {
+      padding: 16px 20px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+
     .suggestion-btn {
-      padding: 8px 14px;
-      background: #1a1a3a;
+      padding: 7px 14px;
+      background: rgba(111, 188, 240, 0.06);
       color: #6fbcf0;
-      border: 1px solid #2a2a5a;
+      border: 1px solid rgba(111, 188, 240, 0.15);
       border-radius: 20px;
       font-size: 13px;
       cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-    .status-bar {
+
+    .suggestion-btn:hover {
+      background: rgba(111, 188, 240, 0.15);
+      border-color: rgba(111, 188, 240, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Input area */
+    .input-area {
+      padding: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      transition: border 0.3s;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    textarea:focus {
+      border-color: rgba(111, 188, 240, 0.4);
+      background: rgba(255,255,255,0.06);
+    }
+
+    textarea::placeholder { color: #4b5563; }
+
+    .ask-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #6fbcf0 0%, #4a9fd4 100%);
+      color: #050510;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    .ask-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(111, 188, 240, 0.3);
+    }
+
+    .ask-btn:active { transform: translateY(0); }
+
+    /* Answer area */
+    .answer-container {
+      margin: 0 20px 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      min-height: 100px;
+      line-height: 1.8;
+      font-size: 14px;
+      color: #d1d5db;
+      white-space: pre-wrap;
+      transition: all 0.3s;
+    }
+
+    .answer-placeholder {
+      color: #374151;
+      font-style: italic;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px 0 30px;
+      color: #374151;
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: #6fbcf0;
+      text-decoration: none;
+    }
+
+    /* Thinking animation */
+    .thinking {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      font-size: 13px;
-      color: #888;
+      align-items: center;
+      gap: 8px;
+      color: #6b7280;
     }
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #2ecc71;
+
+    .thinking-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .thinking-dots span {
+      width: 6px;
+      height: 6px;
+      background: #6fbcf0;
       border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
+      animation: bounce 1.2s infinite;
+    }
+
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .stats-bar { gap: 10px; }
+      .logo-text { font-size: 1.8em; }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>🤖 SuiAgent</h1>
-    <p>AI-Powered Trading Assistant on Sui Blockchain</p>
-  </div>
+  <div class="container">
 
-  <div class="wallet-section">
-    <button class="wallet-btn" id="walletBtn">
-      🔗 Connect Sui Wallet
-    </button>
-  </div>
-
-  <div class="chat-container">
-    <div class="status-bar">
-      <span><span class="live-dot"></span>Live DeepBook Data</span>
-      <span id="walletStatus">Wallet: Not connected</span>
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">🤖</div>
+        <span class="logo-text">SuiAgent</span>
+      </div>
+      <p class="tagline">AI-Powered Trading Assistant on Sui Blockchain</p>
     </div>
 
-    <div class="suggestions">
-      <button class="suggestion-btn" id="btn1">Trading Pools</button>
-      <button class="suggestion-btn" id="btn2">Market Sentiment</button>
-      <button class="suggestion-btn" id="btn3">How to Trade</button>
-      <button class="suggestion-btn" id="btn4">Trading Risks</button>
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-dot"></div>
+        <span class="stat-label">Network:</span>
+        <span class="stat-value">Sui Mainnet</span>
+      </div>
+      <div class="stat">
+        <div class="stat-dot"></div>
+        <span class="stat-label">Data:</span>
+        <span class="stat-value">DeepBook Live</span>
+      </div>
+      <div class="stat">
+        <div class="stat-dot"></div>
+        <span class="stat-label">Status:</span>
+        <span class="stat-value">Online</span>
+      </div>
     </div>
 
-    <textarea id="question" rows="3" 
-      placeholder="Ask me anything about Sui trading, DeepBook markets..."></textarea>
-    <button class="ask-btn" id="askBtn">Ask Agent 🚀</button>
-    <div id="answer">Your AI trading insights will appear here...</div>
+    <!-- Wallet -->
+    <div class="wallet-section">
+      <button class="wallet-btn" id="walletBtn">
+        🔗 Connect Sui Wallet
+      </button>
+    </div>
+
+    <!-- Chat card -->
+    <div class="chat-card">
+      <div class="chat-header">
+        <span class="chat-title">Ask about DeepBook & Sui Trading</span>
+        <div class="live-badge">
+          <div class="stat-dot"></div>
+          Live Data
+        </div>
+      </div>
+
+      <div class="suggestions">
+        <button class="suggestion-btn" id="btn1">📊 Trading Pools</button>
+        <button class="suggestion-btn" id="btn2">📈 Market Sentiment</button>
+        <button class="suggestion-btn" id="btn3">💡 How to Trade</button>
+        <button class="suggestion-btn" id="btn4">⚠️ Trading Risks</button>
+        <button class="suggestion-btn" id="btn5">🏊 Liquidity Pools</button>
+        <button class="suggestion-btn" id="btn6">💰 SUI Price</button>
+      </div>
+
+      <div class="input-area">
+        <textarea id="question" rows="3" 
+          placeholder="Ask me anything about Sui trading, DeepBook markets, liquidity pools..."></textarea>
+        <button class="ask-btn" id="askBtn">Ask SuiAgent 🚀</button>
+      </div>
+
+      <div class="answer-container" id="answer">
+        <span class="answer-placeholder">Your AI trading insights will appear here...</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Powered by <a href="https://sui.io" target="_blank">Sui Blockchain</a> & <a href="https://deepbook.tech" target="_blank">DeepBook</a> • Built for Sui Overflow Hackathon</p>
+    </div>
+
   </div>
 
   <script>
@@ -137,7 +405,7 @@
 
     window.onload = function() {
       document.getElementById('btn1').onclick = function() {
-        document.getElementById('question').value = 'What trading pools are on DeepBook?';
+        document.getElementById('question').value = 'What trading pools are available on DeepBook?';
         sendQuestion();
       };
       document.getElementById('btn2').onclick = function() {
@@ -145,11 +413,19 @@
         sendQuestion();
       };
       document.getElementById('btn3').onclick = function() {
-        document.getElementById('question').value = 'How do I trade on DeepBook?';
+        document.getElementById('question').value = 'How do I start trading on DeepBook?';
         sendQuestion();
       };
       document.getElementById('btn4').onclick = function() {
         document.getElementById('question').value = 'What are the risks of trading SUI?';
+        sendQuestion();
+      };
+      document.getElementById('btn5').onclick = function() {
+        document.getElementById('question').value = 'How do liquidity pools work on DeepBook?';
+        sendQuestion();
+      };
+      document.getElementById('btn6').onclick = function() {
+        document.getElementById('question').value = 'What is the current SUI token price and market cap?';
         sendQuestion();
       };
       document.getElementById('askBtn').onclick = function() {
@@ -169,13 +445,12 @@
         }).then(function(accounts) {
           walletAddress = accounts[0];
           document.getElementById('walletBtn').innerText = '✅ ' + walletAddress.substring(0,6) + '...' + walletAddress.slice(-4);
-          document.getElementById('walletStatus').innerText = 'Wallet: Connected';
-          answerDiv.innerText = '✅ Wallet connected!';
+          answerDiv.innerHTML = '✅ Wallet connected successfully!';
         }).catch(function(err) {
-          answerDiv.innerText = 'Wallet error: ' + err.message;
+          answerDiv.innerHTML = 'Wallet error: ' + err.message;
         });
       } else {
-        answerDiv.innerText = '⚠️ No Sui wallet detected!';
+        answerDiv.innerHTML = '⚠️ No Sui wallet detected! Please install Sui Wallet extension.';
       }
     }
 
@@ -184,11 +459,11 @@
       var answerDiv = document.getElementById('answer');
 
       if (!question.trim()) {
-        answerDiv.innerText = 'Please type a question first!';
+        answerDiv.innerHTML = 'Please type a question first!';
         return;
       }
 
-      answerDiv.innerText = 'Thinking... 🤔';
+      answerDiv.innerHTML = '<div class="thinking">Analyzing market data <div class="thinking-dots"><span></span><span></span><span></span></div></div>';
 
       fetch(BACKEND + '/ask', {
         method: 'POST',
